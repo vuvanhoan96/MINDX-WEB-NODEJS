@@ -58,16 +58,18 @@ postRouter.put("/", (req, res) => {
             message: 'Data is not exist!'
         })
     }
-    const postIndexBeforeEdit = posts.findIndex((p) => p.id === parseInt(postId));
+    const postIndexBeforeEdit = posts.findIndex((p) => p.id === postId);
 
-    posts[postIndexBeforeEdit] = {
-        ...posts[postIndexBeforeEdit],
-        ...data,
-    };
-    res.json(posts);
+    console.log(postIndexBeforeEdit);
 
+    // posts[postIndexBeforeEdit] = {
+    //     ...posts[postIndexBeforeEdit],
+    //     ...data,
+    // };
+    posts[postIndexBeforeEdit] = data;
     res.json({
-        message: 'Edit post successfully!'
+        message: 'Edit post successfully!',
+        posts
     })
 })
 
