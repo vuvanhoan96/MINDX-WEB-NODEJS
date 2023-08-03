@@ -60,6 +60,11 @@ postRouter.put("/", (req, res) => {
     }
     const postIndexBeforeEdit = posts.findIndex((p) => p.id === postId);
 
+    if(postIndexBeforeEdit < 0){
+        res.json({
+            message:'Missing post!'
+        })
+    }
     console.log(postIndexBeforeEdit);
 
     // posts[postIndexBeforeEdit] = {
