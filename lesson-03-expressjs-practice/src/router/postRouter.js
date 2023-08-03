@@ -24,14 +24,14 @@ postRouter.get("/post-detail", (req, res) => {
     res.json(post)
 })
 
-postRouter.post("/", (req, res)=>{
+postRouter.post("/", (req, res) => {
 
     //lấy body
     const data = req.body;
 
-    if(!data){
+    if (!data) {
         res.json({
-            message:'Not data'
+            message: 'Not data'
         })
     }
     posts.push(data);
@@ -39,6 +39,35 @@ postRouter.post("/", (req, res)=>{
     res.json({
         message: 'Add new post successfully!',
         data
+    })
+})
+
+postRouter.put("/", (req, res) => {
+
+    const postId = req.query.id;
+
+    if (!postId) {
+        res.json({
+            message: 'Missing post!'
+        })
+    }
+    const data = req.body;
+
+    if (!data) {
+        res.json({
+            message: 'Data is not exist!'
+        })
+    }
+    const postIndexBeforeEdit = posts.findIndex((p) => p.id === parseInt(postId));
+
+    posts[postIndexBeforeEdit] = {
+        ...posts[postIndexBeforeEdit],
+        ...data,
+    };
+    res.json(posts);
+
+    res.json({
+        message: 'Edit post successfully!'
     })
 })
 
