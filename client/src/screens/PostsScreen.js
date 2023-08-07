@@ -1,7 +1,7 @@
 /** @format */
 
 import { useEffect, useState } from 'react';
-import { Button, Card, List } from 'antd';
+import { Button, Card, List, message } from 'antd';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
@@ -18,11 +18,23 @@ const PostsScreen = () => {
 		const api = 'http://localhost:3001/api/v1/posts';
 
 		try {
-			const res = await axios.get(api);
-
+			const res = await axios.get({
+				method: 'get',
+				url: api,
+				headers: { 
+					'apiKey': 'user1',
+					'Content-Type': 'application/json'
+				  },
+			});
 			if (res && res.status === 200 && res.data) {
-				setPosts(res.data.data);
-				setIsLoading(false);
+				const data = res.data;
+				console.log(data);
+				if (data.length > 0) {
+					setPosts(data);
+					setIsLoading(false);
+				}else{
+					message.error(res.data.message)
+				}
 			} else {
 				setIsLoading(false);
 			}

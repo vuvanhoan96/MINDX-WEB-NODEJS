@@ -5,16 +5,14 @@ import { posts } from '../../data/posts.js';
 
 const postRouter = Router();
 
+// postRouter.use(checkApiKey); // middleware global
+
 postRouter.get('/', (req, res) => {
-	res.json({
-		data: posts,
-	});
+	res.json(posts);
 });
 
 postRouter.get('/post-detail', (req, res) => {
 	const id = req.query.id;
-
-	console.log(id);
 
 	const post = posts.find((el) => el.id === parseInt(id));
 
@@ -69,12 +67,7 @@ postRouter.put('/', (req, res) => {
 			message: 'Missing post!',
 		});
 	}
-	// console.log(postIndexBeforeEdit);
 
-	// posts[postIndexBeforeEdit] = {
-	//     ...posts[postIndexBeforeEdit],
-	//     ...data,
-	// };
 	posts[postIndexBeforeEdit] = data;
 	res.json({
 		message: 'Edit post successfully!',
