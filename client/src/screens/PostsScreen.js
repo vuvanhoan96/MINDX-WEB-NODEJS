@@ -18,7 +18,7 @@ const PostsScreen = () => {
 		const api = 'http://localhost:3001/api/v1/posts';
 
 		try {
-			const res = await axios.get({
+			const res = await axios({
 				method: 'get',
 				url: api,
 				headers: { 
