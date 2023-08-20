@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Button, Card, List, message } from 'antd';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import UserName from '../components/UserName';
 
 const PostsScreen = () => {
 	const [posts, setPosts] = useState([]); // Để lưu dữ liệu
@@ -21,18 +22,17 @@ const PostsScreen = () => {
 			const res = await axios({
 				method: 'get',
 				url: api,
-				headers: { 
+				headers: {
 					'apiKey': 'user1',
 					'Content-Type': 'application/json'
-				  },
+				},
 			});
 			if (res && res.status === 200 && res.data) {
 				const data = res.data;
-				console.log(data);
 				if (data.length > 0) {
 					setPosts(data);
 					setIsLoading(false);
-				}else{
+				} else {
 					message.error(res.data.message)
 				}
 			} else {
@@ -65,7 +65,7 @@ const PostsScreen = () => {
 								}
 								description={item.body}
 							/>
-							{/* <a>{item.userId}</a> */}
+							<Link to={`/users-detail?id=${item.userId}`}><UserName uuid={item.userId} /></Link>
 						</List.Item>
 					)}
 				/>

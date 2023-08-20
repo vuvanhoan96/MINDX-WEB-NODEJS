@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Spin, Card, Button } from 'antd';
 import { Link } from 'react-router-dom';
-
+import UserName from "../components/UserName"
 const PostDetail = () => {
 	const [postDetail, setPostDetail] = useState();
 	const [isLoading, setIsLoading] = useState(false);
@@ -19,8 +19,15 @@ const PostDetail = () => {
 		const api = `http://localhost:3001/api/v1/posts/post-detail?id=${postId}`;
 		setIsLoading(true);
 		try {
-			const res = await axios.get(api);
-
+			const res = await axios({
+				method: 'get',
+				url: api,
+				headers: {
+					'apiKey': 'user1',
+					'Content-Type': 'application/json'
+				},
+			});
+			console.log(res);
 			if (res && res.status === 200 && res.data) {
 				setPostDetail(res.data);
 				setIsLoading(false);
@@ -42,6 +49,7 @@ const PostDetail = () => {
 					}>
 					<h1>{postDetail.title}</h1>
 					<p>{postDetail.body}</p>
+					<UserName uuid={postDetail.userId}/>
 				</Card>
 			) : (
 				<p>Post not found</p>

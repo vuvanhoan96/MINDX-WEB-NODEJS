@@ -1,20 +1,48 @@
-import './App.css';
 import { Routes, Route } from 'react-router-dom';
-import HomeScreen from './screens/HomeScreen';
-import PostsScreen from './screens/PostsScreen';
-import PostDetail from './screens/PostDetail';
-import AddNewPost from './screens/AddNewPost';
-import EditPost from './screens/EditPost';
+import { useEffect, useState } from 'react';
+import {
+  HomeScreen,
+  PostsScreen,
+  PostDetail,
+  AddNewPost,
+  EditPost,
+  LoginScreen
+} from './screens';
+import UserDetail from './components/UserDetail';
+import { Spin } from 'antd';
 
 function App() {
-  return (
-    <div className="App">
+  const [isLogin, setIsLogin] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    getToken();
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }, []);
+
+  const getToken = async () => {
+    const token = await localStorage.getItem('accessToken');
+
+    if (token) {
+      setIsLogin(true)
+    }
+  }
+
+  return isLoading ? <Spin /> : !isLogin ? (
+    <>
+      <LoginScreen />
+    </>
+  ) : (
+    <div className='App'>
       <Routes>
-        <Route path='/home' element={<HomeScreen />} />
+        <Route path='/' element={<HomeScreen />} />
         <Route path='/posts' element={<PostsScreen />} />
         <Route path='/post-detail' element={<PostDetail />} />
         <Route path='/add-new' element={<AddNewPost />} />
         <Route path='/edit-post' element={<EditPost />} />
+        <Route path='/users-detail' element={<UserDetail />} />
       </Routes>
     </div>
   );

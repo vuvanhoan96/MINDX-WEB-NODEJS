@@ -2,10 +2,11 @@
 
 import { Router } from 'express';
 import { posts } from '../../data/posts.js';
+import { checkApiKey } from '../middleware/post.js'
 
 const postRouter = Router();
 
-// postRouter.use(checkApiKey); // middleware global
+postRouter.use(checkApiKey); // middleware global
 
 postRouter.get('/', (req, res) => {
 	res.json(posts);
